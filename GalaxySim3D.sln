@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLTest", "OpenGLTest\OpenGLTest.vcxproj", "{0B37955B-CF78-4AE3-994E-B4D4884DB3DC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GalaxySim3D", "GalaxySim3D\GalaxySim3D.vcxproj", "{0B37955B-CF78-4AE3-994E-B4D4884DB3DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
