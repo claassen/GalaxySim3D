@@ -7,8 +7,8 @@
 ViewControlData controlsData = {0, 0,				//window size
 							    0.0f, 0.0f,			//starting camera angle
 							    0.0f, 0.0f, -1.0f,  //starting camera look vector (normally derived from angles)
-								1.0f, 0.0f, 0.0f,	//starting camera strafe vector ( ... )
-							    0.0f, 1.0f, 50.0f,   //starting camera position
+								1.0f, 0.0f, 0.0f,	//starting camera strafe vector
+							    0.0f, 1.0f, 50.0f,  //starting camera position
 							    0.0f,				//X rotation speed
 							    0.0f,				//Y rotation speed
 							    0,					//forward move speed
@@ -62,19 +62,6 @@ void displayTitle()
 	std::cout << "Written by Michael Claassen (2012)\n" << std::endl;
 }
 
-void displayUsage()
-{
-	std::cout << "\nINSTRUCTIONS:" << std::endl;
-	std::cout << " Move mouse to edges of screen to look around.\n Use UP and DOWN arrows to move forward/backwards." << std::endl;
-	std::cout << " Use LEFT and RIGHT arrows to strafe." << std::endl;
-	std::cout << " Press 's' to to toggle showing the BH tree." << std::endl;
-	std::cout << " Press 'a' and 'd' to slow down and speed up the simulation." << std::endl;
-	std::cout << " Press 'g' to create a new galaxy in front of the camera." << std::endl;
-	std::cout << " Press 'q' to quit.\n" << std::endl;
-	
-	system("PAUSE");
-}
-
 void displayOpenGLInfo()
 {
 	const char* vendor = (const char*)glGetString( GL_VENDOR );
@@ -89,6 +76,18 @@ void displayOpenGLInfo()
 	//std::cout << "Extensions: \t" << extensions << std::endl << std::endl;
 }
 
+void displayUsage()
+{
+	std::cout << "\nINSTRUCTIONS:" << std::endl;
+	std::cout << " Move mouse to edges of screen to look around.\n Use UP and DOWN arrows to move forward/backwards." << std::endl;
+	std::cout << " Use LEFT and RIGHT arrows to strafe." << std::endl;
+	std::cout << " Press 's' to to toggle showing the BH tree." << std::endl;
+	std::cout << " Press 'a' and 'd' to slow down and speed up the simulation." << std::endl;
+	std::cout << " Press 'g' to create a new galaxy in front of the camera." << std::endl;
+	std::cout << " Press 'q' to quit.\n" << std::endl;
+	
+	system("PAUSE");
+}
 
 void Run() 
 {

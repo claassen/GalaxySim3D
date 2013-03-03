@@ -138,7 +138,7 @@ void Simulator::doPhysics()
 	//Calculate forces
 	for(auto b=bodies.begin(); b!=bodies.end(); b++)
 	{
-		BHTree::calculateForce(*tree, *b, bodies, COMBINE_MASS_ON_COLLISION);
+		BHTree::calculateForce(*tree, *b, COMBINE_MASS_ON_COLLISION);
 	}
 
 	//Remove bodies which collided into other bodies

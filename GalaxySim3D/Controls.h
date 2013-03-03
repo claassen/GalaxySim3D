@@ -26,6 +26,13 @@ public:
 		buttons = std::vector<IButton*>();
 		createButtons();
 	}
+	~Controls()
+	{
+		for(int i=0; i<buttons.size(); i++)
+		{
+			delete(buttons[i]);
+		}
+	}
 
 	void pressKey(int key, int xx, int yy);
 	void releaseKey(int key, int x, int y);

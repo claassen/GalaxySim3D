@@ -40,7 +40,7 @@ void BHTree::subdivide()
 	}
 }
 
-void BHTree::insertBody(BHTree& node, Body& b)
+void BHTree::insertBody(BHTree& node, const Body& b)
 {
 	if(!node.hasBody && !node.isInternalNode) {//empty node
 		node.body = b;
@@ -97,7 +97,7 @@ void BHTree::updateTotalAndCenterMass(BHTree& node, const Body& b)
 	node.cgZ /= node.mass;
 }
 
-BHTree &BHTree::getCorrectQuadForBody(BHTree& node, const Body& b)
+BHTree& BHTree::getCorrectQuadForBody(const BHTree& node, const Body& b)
 {
 	if(b.z <= node.bSW->fblCorner.z)
 	{
@@ -165,7 +165,7 @@ BHTree &BHTree::getCorrectQuadForBody(BHTree& node, const Body& b)
 	}
 }
 
-void BHTree::applyForceToBody(Body& b1, Body& b2, std::list<Body>& bodies, bool canCombineMass)
+void BHTree::applyForceToBody(Body& b1, Body& b2, bool canCombineMass)
 {
 	float distance = Body::distance(b1, b2);
 
@@ -212,12 +212,12 @@ void BHTree::applyForceToBody(Body& b1, Body& b2, std::list<Body>& bodies, bool 
 	}
 }
 
-void BHTree::calculateForce(BHTree& node, Body& b, std::list<Body>& bodies, bool canCombineMass)
+void BHTree::calculateForce(BHTree& node, Body& b, bool canCombineMass)
 {
 	if(!node.isInternalNode) {
 		if(node.hasBody && node.body != b) {
 			//apply force of current node to body
-			applyForceToBody(b, node.body, bodies, canCombineMass && true);
+			applyForceToBody(b, node.body, canCombineMass);
 		}
 	}
 	else 
@@ -228,19 +228,19 @@ void BHTree::calculateForce(BHTree& node, Body& b, std::list<Body>& bodies, bool
 		
 		if(s/d <= BH_THETA) {
 			//apply force of current node to body
-			applyForceToBody(b, Body(-1, node.mass, node.cgX, node.cgY, node.cgZ), bodies, false);
+			applyForceToBody(b, Body(-1, node.mass, node.cgX, node.cgY, node.cgZ), false);
 		}
 		else 
 		{
 			//recursively apply force of child nodes
-			calculateForce(*node.fNW, b, bodies, canCombineMass);
-			calculateForce(*node.fNE, b, bodies, canCombineMass);
-			calculateForce(*node.fSW, b, bodies, canCombineMass);
-			calculateForce(*node.fSE, b, bodies, canCombineMass);
-			calculateForce(*node.bNW, b, bodies, canCombineMass);
-			calculateForce(*node.bNE, b, bodies, canCombineMass);
-			calculateForce(*node.bSW, b, bodies, canCombineMass);
-			calculateForce(*node.bSE, b, bodies, canCombineMass);
+			calculateForce(*node.fNW, b, canCombineMass);
+			calculateForce(*node.fNE, b, canCombineMass);
+			calculateForce(*node.fSW, b, canCombineMass);
+			calculateForce(*node.fSE, b, canCombineMass);
+			calculateForce(*node.bNW, b, canCombineMass);
+			calculateForce(*node.bNE, b, canCombineMass);
+			calculateForce(*node.bSW, b, canCombineMass);
+			calculateForce(*node.bSE, b, canCombineMass);
 		}
 	}
 }

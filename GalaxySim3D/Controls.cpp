@@ -132,13 +132,12 @@ void Controls::mouseClick(int button, int state, int x, int y)
 	{
 		if(button == GLUT_LEFT_BUTTON)
 		{
-			for(auto b = buttons.begin(); b != buttons.end(); b++)
-			{
-				if((*b)->checkForClick(x, y))
+			std::for_each(buttons.begin(), buttons.end(), [x, y](IButton* b) { 
+				if(b->checkForClick(x, y)) 
 				{
-					(*b)->click(x, y);
-				}
-			}
+					b->click(x, y);
+				} 
+			});
 		}
 	}
 }
