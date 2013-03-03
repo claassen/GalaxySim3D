@@ -18,11 +18,6 @@ void Controls::computeDir()
 	viewData.angleX += viewData.deltaAngleX;
 	viewData.angleY += viewData.deltaAngleY;
 
-	//if(viewData.angleX > 360) viewData.angleX = 0;
-	//if(viewData.angleX < 0) viewData.angleX = 360;
-	//if(viewData.angleY > 360) viewData.angleY = 0;
-	//if(viewData.angleY < 0) viewData.angleY = 360;
-
 	viewData.ly = sin(viewData.angleY);
 	float XZfactor = cos(viewData.angleY);
 	viewData.lx = XZfactor * sin(viewData.angleX);
@@ -63,9 +58,6 @@ void Controls::regularKey(unsigned char key, int x, int y)
 	switch(key)
 	{
 		case 'q':
-			//glutReshapeWindow(800, 600);        
-			//glutPositionWindow(100,100);
-			//glutDestroyWindow(windowID);
 			exit(0);
 			break;
 		case 's':
@@ -189,6 +181,105 @@ void Controls::computeCameraPosition()
 }
 
 //BUTTONS
+void Controls::createButtons()
+{
+	FunctionButton *clearButton = new FunctionButton();
+	clearButton->x = 10;
+	clearButton->y = 10;
+	clearButton->width = 100;
+	clearButton->height = 40;
+	clearButton->text = "Clear Space";
+	clearButton->callback = [=](int x, int y){simulator.clearSpace();};
+	buttons.push_back(clearButton);
+
+	ToggleButton *toggleGalaxiesInSolarSystem = new ToggleButton(simulator.createSolarSystemsInGalaxy);
+	toggleGalaxiesInSolarSystem->x = 120;
+	toggleGalaxiesInSolarSystem->y = 10;
+	toggleGalaxiesInSolarSystem->width = 130;
+	toggleGalaxiesInSolarSystem->height = 40;
+	toggleGalaxiesInSolarSystem->text = "Create mini solar systems";
+
+	buttons.push_back(toggleGalaxiesInSolarSystem);
+
+	IncrementButton<float> *simSpeedButton = new IncrementButton<float>(simulator.DT);
+	simSpeedButton->x = 260;
+	simSpeedButton->y = 10;
+	simSpeedButton->width = 80;
+	simSpeedButton->height = 40;
+	simSpeedButton->text = "Sim Speed";
+	simSpeedButton->increment = 0.005;
+	simSpeedButton->minVal = 0.005;
+	simSpeedButton->maxVal = 2;
+
+	buttons.push_back(simSpeedButton);
+
+	IncrementButton<int> *numBodiesButton = new IncrementButton<int>(simulator.NUM_BODIES);
+	numBodiesButton->x = 350;
+	numBodiesButton->y = 10;
+	numBodiesButton->width = 120;
+	numBodiesButton->height = 40;
+	numBodiesButton->text = "Bodies per Galaxy";
+	numBodiesButton->increment = 10;
+	numBodiesButton->minVal = 10;
+	numBodiesButton->maxVal = 1000;
+
+	buttons.push_back(numBodiesButton);
+
+	IncrementButton<int> *galaxyWidthButton = new IncrementButton<int>(simulator.GALAXY_WIDTH);
+	galaxyWidthButton->x = 480;
+	galaxyWidthButton->y = 10;
+	galaxyWidthButton->width = 100;
+	galaxyWidthButton->height = 40;
+	galaxyWidthButton->text = "Galaxy width";
+	galaxyWidthButton->increment = 10;
+	galaxyWidthButton->minVal = 50;
+	galaxyWidthButton->maxVal = 1000;
+
+	buttons.push_back(galaxyWidthButton);
+
+	IncrementButton<int> *percentSunsButton = new IncrementButton<int>(simulator.PERCENT_SUNS);
+	percentSunsButton->x = 590;
+	percentSunsButton->y = 10;
+	percentSunsButton->width = 100;
+	percentSunsButton->height = 40;
+	percentSunsButton->text = "% Suns in galaxy";
+	percentSunsButton->increment = 1;
+	percentSunsButton->minVal = 1;
+	percentSunsButton->maxVal = 50;
+
+	buttons.push_back(percentSunsButton);
+
+	IncrementButton<int> *orbitMassRatioButton = new IncrementButton<int>(simulator.GCENTER_TO_P_MASS_RATIO);
+	orbitMassRatioButton->x = 700;
+	orbitMassRatioButton->y = 10;
+	orbitMassRatioButton->width = 160;
+	orbitMassRatioButton->height = 40;
+	orbitMassRatioButton->text = "G. center to orbit mass ratio";
+	orbitMassRatioButton->increment = 100;
+	orbitMassRatioButton->minVal = 500;
+	orbitMassRatioButton->maxVal = 50000;
+
+	buttons.push_back(orbitMassRatioButton);
+
+	ToggleButton *toggleShowBHTree = new ToggleButton(simulator.ShowTree);
+	toggleShowBHTree->x = 870;
+	toggleShowBHTree->y = 10;
+	toggleShowBHTree->width = 100;
+	toggleShowBHTree->height = 40;
+	toggleShowBHTree->text = "Show BH tree";
+
+	buttons.push_back(toggleShowBHTree);
+
+	ToggleButton *toggleCombineMasses = new ToggleButton(simulator.COMBINE_MASS_ON_COLLISION);
+	toggleCombineMasses->x = 980;
+	toggleCombineMasses->y = 10;
+	toggleCombineMasses->width = 120;
+	toggleCombineMasses->height = 40;
+	toggleCombineMasses->text = "Combine mass on collision";
+
+	buttons.push_back(toggleCombineMasses);
+}
+
 void Controls::drawButtons()
 {
 	//Set orthographic viewing transformation

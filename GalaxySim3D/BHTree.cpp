@@ -22,17 +22,17 @@ void BHTree::subdivide()
 
 	try
 	{
-	//Front 4 quadrants
-	fSW = new BHTree(fbl, halfWidth, treeDepth);
-	fSE = new BHTree(fbr, halfWidth, treeDepth);
-	fNW = new BHTree(fml, halfWidth, treeDepth);
-	fNE = new BHTree(fmr, halfWidth, treeDepth);
+		//Front 4 quadrants
+		fSW = new BHTree(fbl, halfWidth, treeDepth);
+		fSE = new BHTree(fbr, halfWidth, treeDepth);
+		fNW = new BHTree(fml, halfWidth, treeDepth);
+		fNE = new BHTree(fmr, halfWidth, treeDepth);
 
-	//Back 4 quadrants
-	bSW = new BHTree(bbl, halfWidth, treeDepth);
-	bSE = new BHTree(bbr, halfWidth, treeDepth);
-	bNW = new BHTree(bml, halfWidth, treeDepth);
-	bNE = new BHTree(bmr, halfWidth, treeDepth);
+		//Back 4 quadrants
+		bSW = new BHTree(bbl, halfWidth, treeDepth);
+		bSE = new BHTree(bbr, halfWidth, treeDepth);
+		bNW = new BHTree(bml, halfWidth, treeDepth);
+		bNE = new BHTree(bmr, halfWidth, treeDepth);
 	}
 	catch(std::exception e)
 	{
@@ -52,13 +52,11 @@ void BHTree::insertBody(BHTree& node, Body& b)
 		updateTotalAndCenterMass(node, b);
 		
 		//recursively insert into correct quadrant
-		
 		BHTree& correctQuad = getCorrectQuadForBody(node, b);
 		insertBody(correctQuad, b);
 	}
 	else { //external node that already contains a body
-		//treeDepth++;
-
+		
 		//In order to avoid stack overflow when 2 bodies happen to be extrememly close to each other,
 		//we will not try to subdivide a node further if the tree is already too deep. Instead we will simply update
 		//the lowest nodes mass and center of mass with the new body (essentially just 'cramming' more than one body
@@ -67,7 +65,6 @@ void BHTree::insertBody(BHTree& node, Body& b)
 		{
 			node.subdivide();
 			Body& existingBody = node.body;
-			//node.body.id = 0; //essentially deletes it
 			node.hasBody = false;
 			BHTree& correctQuadForNewBody = getCorrectQuadForBody(node, b);
 			BHTree& correctQuadForExistingBody = getCorrectQuadForBody(node, existingBody);
@@ -196,41 +193,23 @@ void BHTree::applyForceToBody(Body& b1, Body& b2, std::list<Body>& bodies, bool 
 	}
 	else
 	{
-	float d = std::max(distance, b1.radius + b2.radius);
+		float d = std::max(distance, b1.radius + b2.radius);
 
-	float fx = Body::forceOfGravity(b1, b2, d, b1.x - b2.x);
-	float fy = Body::forceOfGravity(b1, b2, d, b1.y - b2.y);
-	float fz = Body::forceOfGravity(b1, b2, d, b1.z - b2.z);
+		float fx = Body::forceOfGravity(b1, b2, d, b1.x - b2.x);
+		float fy = Body::forceOfGravity(b1, b2, d, b1.y - b2.y);
+		float fz = Body::forceOfGravity(b1, b2, d, b1.z - b2.z);
 
-	if(b1.x <= b2.x) fx = abs(fx);
-	else fx = abs(fx) * -1;
-	if(b1.y <= b2.y) fy = abs(fy);
-	else fy = abs(fy) * -1;
-	if(b1.z <= b2.z) fz = abs(fz);
-	else fz = abs(fz) * -1;
+		if(b1.x <= b2.x) fx = abs(fx);
+		else fx = abs(fx) * -1;
+		if(b1.y <= b2.y) fy = abs(fy);
+		else fy = abs(fy) * -1;
+		if(b1.z <= b2.z) fz = abs(fz);
+		else fz = abs(fz) * -1;
 
-	b1.ax += fx/b1.mass;
-	b1.ay += fy/b1.mass;
-	b1.az += fz/b1.mass;
+		b1.ax += fx/b1.mass;
+		b1.ay += fy/b1.mass;
+		b1.az += fz/b1.mass;
 	}
-	//if(canCombineMass && distance < std::max(b1.radius, b2.radius))
-	//{
-	//	//TODO: combine masses on collision
-	//	if(b1.mass > b2.mass)
-	//	{
-	//		b1.mass += b2.mass;
-	//		b1.setRadiusAndColor();
-	//		b2.mass = 0;
-	//		b2.markForDeletion = true;
-	//	}
-	//	else
-	//	{
-	//		b2.mass += b1.mass;
-	//		b2.setRadiusAndColor();
-	//		b1.mass = 0;
-	//		b1.markForDeletion = true;
-	//	}
-	//}
 }
 
 void BHTree::calculateForce(BHTree& node, Body& b, std::list<Body>& bodies, bool canCombineMass)
@@ -266,18 +245,3 @@ void BHTree::calculateForce(BHTree& node, Body& b, std::list<Body>& bodies, bool
 	}
 }
 
-void BHTree::destroyTree(BHTree *node)
-{
-	if(node->isInternalNode)
-	{
-		destroyTree(node->fNE);
-		destroyTree(node->fNW);
-		destroyTree(node->fSE);
-		destroyTree(node->fSW);
-		destroyTree(node->bNE);
-		destroyTree(node->bNW);
-		destroyTree(node->bSE);
-		destroyTree(node->bSW);
-	}
-	delete node;
-}

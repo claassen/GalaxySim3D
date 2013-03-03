@@ -25,9 +25,9 @@ float Body::forceOfGravity(const Body& b1, const Body& b2, float distance, float
 void Body::setRadiusAndColor()
 {
 	radius = radiusFromMass(mass);
-	float ratio = (float)mass / ((float)MAX_MASS/(DEFAULT_GCENTER_TO_P_MASS_RATIO*2));
+	float ratio = (float)mass / ((float)DEFAULT_MAX_MASS/(DEFAULT_GCENTER_TO_P_MASS_RATIO*2));
 		
-	if(mass > MAX_MASS)
+	if(mass > DEFAULT_MAX_MASS)
 	{
 		r = 1.0f;
 		b = 1.0f;
@@ -35,7 +35,7 @@ void Body::setRadiusAndColor()
 	}
 	else
 	{
-		if(mass < MAX_MASS / (DEFAULT_GCENTER_TO_P_MASS_RATIO*2))
+		if(mass < DEFAULT_MAX_MASS / (DEFAULT_GCENTER_TO_P_MASS_RATIO*2))
 		{
 			r = 1.0;// - ratio; //std::max(ratio * 10, 1.0f);//(rand() % 100) / 100.0;
 			b = 1.0;// - ratio; //(rand() % 100) / 100.0;

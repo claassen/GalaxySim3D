@@ -55,7 +55,7 @@ public:
 		}
 		else
 		{
-			useText = "OFF"; //buttonOffText;
+			useText = "OFF";
 			glColor3f(0.7f,0.7f,0.8f);
 		}
 
@@ -104,7 +104,8 @@ public:
 class FunctionButton : public IButton
 {
 public:
-	ButtonCallback callback;
+	//ButtonCallback callback;
+	std::function<void(int,int)> callback;
 
 	void click(int mouseX, int mouseY)
 	{

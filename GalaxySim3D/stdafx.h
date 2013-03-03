@@ -10,7 +10,8 @@
 #define G 6.67e-6			//-6
 
 //Simulation settings
-#define MAX_MASS 100000000  //100000000
+#define DEFAULT_MAX_MASS 100000000  //100000000
+#define DEFAULT_SUN_THRESHOLD_SIZE (DEFAULT_MAX_MASS / 500)
 #define DEFAULT_NUM_BODIES 300		//300 //*670
 #define DEFAULT_GALAXY_WIDTH 500	//600 //*500
 #define DEFAULT_GALAXY_ARM_WIDTH 20 //20
@@ -42,6 +43,7 @@ struct Point
 #include <iostream>
 #include <sstream>
 #include <list>
+#include <functional>
 
 
 //3rd party libs
@@ -50,6 +52,7 @@ struct Point
 #include "include\GL\glut.h"
 #include <gl\GL.h>
 #include <gl\GLU.h>
+//#include <boost\thread\thread.hpp>
 
 
 //Project header files
@@ -57,6 +60,8 @@ struct Point
 #include "FileOps.h"
 #include "Body.h"
 #include "BHTree.h"
+#include "SimulatorGraphics.h"
+#include "OpenGLSimulatorGraphics.h"
 #include "Simulator.h"
 #include "Controls.h"
 

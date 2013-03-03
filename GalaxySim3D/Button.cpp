@@ -24,7 +24,6 @@ void drawText(int x, int y, int width, int height, std::string text)
 void drawButton(int x, int y, int width, int height, std::string text)
 {
 	//Draw box
-	//glColor3f(0.7f,0.7f,0.8f);
 	glBegin(GL_LINE_STRIP);
 		glVertex2f(x, y);
 		glVertex2f(x, y+height);

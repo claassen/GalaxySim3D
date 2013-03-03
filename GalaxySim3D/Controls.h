@@ -24,6 +24,7 @@ public:
 		: simulator(sim), viewData(viewData) 
 	{
 		buttons = std::vector<IButton*>();
+		createButtons();
 	}
 
 	void pressKey(int key, int xx, int yy);
@@ -35,6 +36,8 @@ public:
 	void changeSize(int w, int h);
 	void computeCameraPosition();
 	void drawButtons();
+	int WindowWidth();
+	int WindowHeight();
 	float CameraX() { return viewData.x; };
 	float CameraY() { return viewData.y; };
 	float CameraZ() { return viewData.z; };
@@ -42,6 +45,7 @@ public:
 	float CameraLookY() { return viewData.y + viewData.ly; };
 	float CameraLookZ() { return viewData.z + viewData.lz; };
 private:
+	void createButtons();
 	void computePos();
 	void computeDir();
 };

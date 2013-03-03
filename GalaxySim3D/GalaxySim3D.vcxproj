@@ -70,6 +70,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\boost_1_53_0\boost_1_53_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -88,7 +89,9 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="FileOps.h" />
+    <ClInclude Include="OpenGLSimulatorGraphics.h" />
     <ClInclude Include="Simulator.h" />
+    <ClInclude Include="SimulatorGraphics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -99,7 +102,9 @@
     <ClCompile Include="Controls.cpp" />
     <ClCompile Include="FileOps.cpp" />
     <ClCompile Include="GalaxySim3D.cpp" />
+    <ClCompile Include="OpenGLSimulatorGraphics.cpp" />
     <ClCompile Include="Simulator.cpp" />
+    <ClCompile Include="SimulatorGraphics.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

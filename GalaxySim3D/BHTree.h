@@ -21,17 +21,29 @@ public:
 	BHTree() {}
 	BHTree(Point fblCorner, float width, int parentDepth) 
 		: fblCorner(fblCorner), width(width), mass(0), cgX(0), cgY(0), cgZ(0), isInternalNode(false), hasBody(false), treeDepth(parentDepth + 1) {}
-				
+	~BHTree()
+	{
+		if(isInternalNode)
+		{
+			delete(fNE);
+			delete(fNW);
+			delete(fSE);
+			delete(fSW);
+			delete(bNE);
+			delete(bNW);
+			delete(bSE);
+			delete(bSW);
+		}
+	}
+
 	//Static methods
 	static void insertBody(BHTree& node, Body& b);
 	static void updateTotalAndCenterMass(BHTree& node, const Body& b);
 	static BHTree &getCorrectQuadForBody(BHTree& node, const Body& b);
 	static void calculateForce(BHTree& node, Body& b, std::list<Body>& bodies, bool canCombineMass);
 	static void applyForceToBody(Body& b1, Body& b2, std::list<Body>& bodies, bool canCombineMass);
-	static void destroyTree(BHTree *node);
 private:
 	int treeDepth;
-
 	void subdivide();
 };
 

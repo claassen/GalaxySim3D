@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 #include "Simulator.h"
 
-GLfloat yellowEmissiveMaterial[] = {0.9, 0.9, 0.0}; 
-GLfloat noneEmissiveMaterial[] = {0.0, 0.0, 0.0};
-
 void Simulator::initSimulation()
 {
 	tree = new BHTree();
@@ -69,18 +66,17 @@ void Simulator::createGalaxy(float x, float y, float z, int diameter, long long 
 
 void Simulator::run()
 {
+	delete(tree);
 	updatePositions(DT*0.5);
 	createTree();
 	doPhysics();
 	updateVelocities(DT);
 	updatePositions(DT*0.5);
 	draw();
-	BHTree::destroyTree(tree);
 }
 
 void Simulator::createTree()
 {
-	//BHTree::treeDepth = 0;
 	//Get bounding box for BH tree
 	if(bodies.size() > 0)
 	{
@@ -181,70 +177,11 @@ void Simulator::updatePositions(float dt)
 
 void Simulator::draw()
 {
-	glEnable(GL_LIGHTING);
-	for(auto b=bodies.begin(); b!=bodies.end(); b++)
-	{
-		glPushMatrix();
-		glTranslatef(b->x, b->y, b->z);
-		drawSphere(*b);
-		glPopMatrix();
-	}
+	graphics.drawBodies(bodies, SUN_THRESHOLD_SIZE);
 
 	if(ShowTree)
 	{
-		glDisable(GL_LIGHTING);
-		displayTree(*tree);
-	}
-}
-
-void Simulator::drawSphere(const Body& b) 
-{
-	//Set correct color and material
-	if(b.mass > MAX_MASS / 500)
-	{
-		//"Sun" sized body
-		glEnable(GL_COLOR_MATERIAL);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, yellowEmissiveMaterial);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, yellowEmissiveMaterial);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, yellowEmissiveMaterial);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, yellowEmissiveMaterial);
-	}
-	else
-	{
-		//Regular body
-		glDisable(GL_COLOR_MATERIAL);
-		GLfloat colorMaterial[] = {b.r, b.b, b.g};
-		GLfloat colorSpecMaterial[] = {b.r, b.b, b.g};
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, noneEmissiveMaterial);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorMaterial);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorMaterial);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorSpecMaterial);
-	}
-		
-	// Draw sphere
-	glutSolidSphere(b.radius,20,20);
-}
-
-void Simulator::displayTree(const BHTree& node)
-{
-	glColor3f(0.0,0.0,0.2); //blue
-	glPointSize(0.1);  
-
-	glPushMatrix();
-	glTranslatef(node.fblCorner.x + node.width / 2, node.fblCorner.y + node.width / 2, node.fblCorner.z + node.width / 2);
-	glutWireCube(node.width);
-	glPopMatrix();
-
-	if(node.isInternalNode)
-	{
-		displayTree(*node.fNE);
-		displayTree(*node.fNW);
-		displayTree(*node.fSE);
-		displayTree(*node.fSW);
-		displayTree(*node.bNE);
-		displayTree(*node.bNW);
-		displayTree(*node.bSE);
-		displayTree(*node.bSW);
+		graphics.drawTree(*tree);
 	}
 }
 
